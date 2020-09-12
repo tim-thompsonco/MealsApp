@@ -1,9 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { FlatList, StyleSheet, View } from 'react-native';
 import MealItem from '../components/MealItem';
 
 const MealList = (props) => {
+  const favoriteMeals = useSelector((state) => state.meals.favoriteMeals);
+
   const renderMealItem = (itemData) => {
+    const isFavorite = favoriteMeals.find(
+      (meal) => meal.id === itemData.item.id
+    );
+
     return (
       <View style={styles.screen}>
         <MealItem
@@ -18,6 +25,7 @@ const MealList = (props) => {
               params: {
                 mealId: itemData.item.id,
                 mealTitle: itemData.item.title,
+                isFav: isFavorite,
               },
             });
           }}
